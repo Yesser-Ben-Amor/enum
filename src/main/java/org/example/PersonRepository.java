@@ -16,26 +16,19 @@ public class PersonRepository {
         personMap.put(person.id(), person);
     }
 
-    // Methode die ein Optional zurückgibt optinal Aufgabe
+    // Methode die ein Optional zurückgibt
     public Optional<Person> findPersonById(int id) {
         return Optional.ofNullable(personMap.get(id));
     }
-    //Suche ohne Map langsamm bei vielen Daten Zeitkomplexität: O(n)
-    /*
-    public Person findPersonInList(int id) {
+
+    // Alternative: Mit List statt Map (ohne Lambda)
+    public Optional<Person> findPersonByIdUsingList(int id) {
         for (Person person : personList) {
             if (person.id() == id) {
-                return person;
+                return Optional.of(person);
             }
         }
-        return null; // Oder throw Exception
-    }*/
-
-    // Alternative: Mit List statt Map (wenn nur List verwendet wird)
-    public Optional<Person> findPersonByIdUsingList(int id) {
-        return personList.stream()
-                .filter(person -> person.id() == id)
-                .findFirst();
+        return Optional.empty();
     }
 
     public List<Person> getAllPersons() {
