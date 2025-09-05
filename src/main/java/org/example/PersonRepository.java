@@ -20,6 +20,16 @@ public class PersonRepository {
     public Optional<Person> findPersonById(int id) {
         return Optional.ofNullable(personMap.get(id));
     }
+    //Suche ohne Map langsamm bei vielen Daten Zeitkomplexität: O(n)
+    /*
+    public Person findPersonInList(int id) {
+        for (Person person : personList) {
+            if (person.id() == id) {
+                return person;
+            }
+        }
+        return null; // Oder throw Exception
+    }*/
 
     // Alternative: Mit List statt Map (wenn nur List verwendet wird)
     public Optional<Person> findPersonByIdUsingList(int id) {
