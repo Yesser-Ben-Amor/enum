@@ -4,32 +4,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class PersonRepository {
 
-    // Version mit List
     private final List<Person> personList = new ArrayList<>();
-
-    // Version mit Map (optional, für schnellen Zugriff per ID)
     private final Map<Integer, Person> personMap = new HashMap<>();
 
-    // Person zur Liste hinzufügen
     public void addPerson(Person person) {
         personList.add(person);
         personMap.put(person.id(), person);
     }
 
-    // Person anhand der ID finden
-    public Person findPersonById(int id) {
-        return personMap.get(id);
+    // Methode die ein Optional zurückgibt optinal Aufgabe
+    public Optional<Person> findPersonById(int id) {
+        return Optional.ofNullable(personMap.get(id));
     }
 
-    // Alle Personen zurückgeben
+    // Alternative: Mit List statt Map (wenn nur List verwendet wird)
+    public Optional<Person> findPersonByIdUsingList(int id) {
+        return personList.stream()
+                .filter(person -> person.id() == id)
+                .findFirst();
+    }
+
     public List<Person> getAllPersons() {
-        return new ArrayList<>(personList); // Rückgabe einer Kopie
+        return new ArrayList<>(personList);
     }
 
-    // Personen nach Lieblingswochentag filtern
     public List<Person> getPersonsByFavoriteDay(DaysOfWeek day) {
         List<Person> result = new ArrayList<>();
         for (Person person : personList) {
@@ -40,7 +42,6 @@ public class PersonRepository {
         return result;
     }
 
-    // Person anhand der ID entfernen
     public boolean removePerson(int id) {
         Person person = personMap.remove(id);
         if (person != null) {
@@ -49,7 +50,6 @@ public class PersonRepository {
         return false;
     }
 
-    // Anzahl der Personen
     public int getPersonCount() {
         return personList.size();
     }
